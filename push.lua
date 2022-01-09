@@ -240,6 +240,20 @@ function push:toGame(x, y)
   return x, y
 end
 
+local function clamp(x, min, max)
+  return math.min(max, math.max(x, min))
+end
+function push:toGameClamped(x, y, show)
+  x, y = x - self._OFFSET.x, y - self._OFFSET.y
+  local normalX, normalY = x / self._GWIDTH, y / self._GHEIGHT
+
+  normalX = clamp(normalX, 0, 1)
+  normalY = clamp(normalY, 0, 1)
+  x = normalX * self._WWIDTH
+  y = normalY * self._WHEIGHT
+  return x, y
+end
+
 function push:toReal(x, y)
   local realX = self._OFFSET.x + (self._GWIDTH * x)/self._WWIDTH
   local realY = self._OFFSET.y + (self._GHEIGHT * y)/self._WHEIGHT
